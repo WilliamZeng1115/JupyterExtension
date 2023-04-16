@@ -19,3 +19,31 @@ test('should emit an activation console message', async ({ page }) => {
     logs.filter(s => s === 'JupyterLab extension plotly-extension is activated!')
   ).toHaveLength(1);
 });
+
+test('should emit command created console message', async ({ page }) => {
+  const logs: string[] = [];
+
+  page.on('console', message => {
+    logs.push(message.text());
+  });
+
+  await page.goto();
+
+  expect(
+    logs.filter(s => s === 'Created command plotly-extension:open-dialog')
+  ).toHaveLength(1);
+});
+
+test('should emit launcher button created console message', async ({ page }) => {
+  const logs: string[] = [];
+
+  page.on('console', message => {
+    logs.push(message.text());
+  });
+
+  await page.goto();
+
+  expect(
+    logs.filter(s => s === 'Launch button created')
+  ).toHaveLength(1);
+});
